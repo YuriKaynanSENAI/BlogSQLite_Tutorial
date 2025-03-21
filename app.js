@@ -33,7 +33,8 @@ const info = 'Vc está na página "Info"<br><a href="/">Voltar</a>';
 o segundo, são os dados que serão enviados ao cliente (RESULT - 'res') */
 app.get("/", (req, res) => {
   // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000
-  res.send(index);
+  // res.send(index);
+  res.render("index");
 });
 
 app.get("/home", (req, res) => {

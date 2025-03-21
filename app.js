@@ -1,7 +1,8 @@
+//   "biblioteca"
 const express = require("express"); // Importa lib do Express
 const sqlite3 = require("sqlite3"); // Importa lib do sqlite3
 
-const PORT = 8000; // Porta TCP do servidor HTTP da aplicação
+const PORT = 8000; // Irá chamar a Porta TCP do servidor HTTP da aplicação
 
 const app = express(); // Instância para uso do Express
 
@@ -14,8 +15,10 @@ db.serialize(() => {
   );
 });
 
-app.use("/statc", express.static(__dirname + "/statc"));
-// Cria conexão com o banco de dados
+app.use("/static", express.static(__dirname + "/static"));
+
+// Configura EJS como o motor de visualização
+app.set("view engine", "ejs");
 
 const index =
   "<a href='/home'> Home</a><a href='/sobre'> Sobre</a><a href='/login'> Login</a><a href='/cadastro'> Cadastro</a><a href='/info'> Info</a>";
@@ -64,5 +67,3 @@ app.get("/info", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor sendo executado na porta ${PORT}!`);
 });
-
-//dia 21/03/2025 atualizei os códigos usando as anotações do Ribeiro

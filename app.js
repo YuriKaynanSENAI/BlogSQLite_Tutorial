@@ -14,6 +14,7 @@ db.serialize(() => {
   );
 });
 
+app.use("/statc", express.static(__dirname + "/statc"));
 // Cria conexão com o banco de dados
 
 const index =

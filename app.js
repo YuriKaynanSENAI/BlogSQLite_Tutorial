@@ -15,22 +15,29 @@ db.serialize(() => {
   );
 });
 
+// _dirname é a variável interna do nodejs que guarda o caminho absoluto do projeto, no SO
+//console.log(__dirname + "/static");
+
+// Aqui será acrescentado uma rota "/static", para a pasta _dirname + "/static"
+// O app.use é usado para acrenscentar rotas para o Express gerenciar e pode usar
+// Middleware para isto, que neste caso é o express.static, que gerencia rotas estáticas.
 app.use("/static", express.static(__dirname + "/static"));
 
 // Configura EJS como o motor de visualização
 app.set("view engine", "ejs");
 
-const index =
-  "<a href='/home'> Home</a><a href='/sobre'> Sobre</a><a href='/login'> Login</a><a href='/cadastro'> Cadastro</a><a href='/info'> Info</a>";
-const home = 'Vc está na página "Home"<br><a href="/">Voltar</a>';
-const sobre = 'Vc está na página "Sobre"<br><a href="/">Voltar</a>';
-const login = 'Vc está na página "Login"<br><a href="/">Voltar</a>';
-const cadastro = 'Vc está na página "Cadastro"<br><a href="/">Voltar</a>';
-const info = 'Vc está na página "Info"<br><a href="/">Voltar</a>';
+// const index =
+//   "<a href='/home'> Home</a><a href='/sobre'> Sobre</a><a href='/login'> Login</a><a href='/cadastro'> Cadastro</a><a href='/info'> Info</a>";
+// const home = 'Vc está na página "Home"<br><a href="/">Voltar</a>';
+// const sobre = 'Vc está na página "Sobre"<br><a href="/">Voltar</a>';
+// const login = 'Vc está na página "Login"<br><a href="/">Voltar</a>';
+// const cadastro = 'Vc está na página "Cadastro"<br><a href="/">Voltar</a>';
+// const info = 'Vc está na página "Info"<br><a href="/">Voltar</a>';
 
 /* Método express.get necessita de dois parâmetros
 // Na ARROW FUNCTION: o primeiro são os daods do servidor (REQUISITION - 'res'):
 o segundo, são os dados que serão enviados ao cliente (RESULT - 'res') */
+
 app.get("/", (req, res) => {
   // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000
   // res.send(index);
@@ -48,7 +55,12 @@ app.get("/sobre", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  res.send(login);
+  // res.send(login);
+  res.render("login");
+});
+
+app.post("/login", (req, res) => {
+  res.send("Login ainda não implementado.");
 });
 
 app.get("/cadastro", (req, res) => {

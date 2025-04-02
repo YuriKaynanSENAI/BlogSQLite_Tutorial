@@ -100,25 +100,26 @@ header nav a:hover {
 
 .cloud {
   position: absolute;
-  width: 250px;
+  width: 300px;
   height: 100px;
   background: url(/static/images/nuvem.png) center / cover no-repeat;
   filter: drop-shadow(2px 2px 20px #e3eed4);
 }
 
 .cloud:nth-child(1) {
-  top: 2.5%;
+  z-index: 2000;
+  top: 5.5%;
   left: 5%;
 }
 
 .cloud:nth-child(2) {
   z-index: 3000;
-  top: 2.5%;
-  left: 24%;
+  top: 8.5%;
+  left: 35%;
 }
 .cloud:nth-child(3) {
   z-index: 3000;
-  top: 9.5%;
+  top: 12.5%;
   left: 5%;
 }
 

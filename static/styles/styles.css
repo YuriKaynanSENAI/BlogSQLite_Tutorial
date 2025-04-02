@@ -341,16 +341,17 @@ header nav a:hover {
     padding: 15px;
   }
   .cloud:nth-child(3) {
-    top: 7.5%;
+    top: 14.5%;
     left: 66%;
   }
   .cloud:nth-child(2) {
-    top: 2.5%;
+    top: 8.5%;
     left: 39%;
   }
   .cloud:nth-child(1) {
-    top: 2.5%;
-    left: 65%;
+    z-index: 3000;
+    top: 7.5%;
+    left: 85%;
   }
   .cloud {
     position: absolute;

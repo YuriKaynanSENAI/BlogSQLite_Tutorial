@@ -134,6 +134,26 @@ function checkPasswordStrength(password) {
 }
 /* --------------------------------------------------------------------- */
 
+/* ------------- FUNÇÃO PARA CRIAR "CHUVA" NO FORMULÁRIO ------------------ */
+const rainFunction = () => {
+  let rain = document.createElement("span");
+  let cont_rain = document.querySelector(".container_rain");
+  let left = Math.floor(Math.random() * (310 - 65) + 65); // Define posição aleatória da chuva
+  let duration = Math.random() * 5;
+
+  rain.classList.add("rain"); // Adiciona a classe 'rain' ao elemento criado
+  cont_rain.appendChild(rain);
+  rain.style.left = left + "px";
+  rain.style.animationDuration = 1 + duration;
+
+  setTimeout(() => {
+    cont_rain.removeChild(rain); // Remove a "gota de chuva" após 1.5 segundos
+  }, 1500);
+};
+
+setInterval(rainFunction, 250); // Chama a função a cada 250ms para criar o efeito de chuva
+/* --------------------------------------------------------------------- */
+
 /* ------------- FUNÇÃO PARA VERIFICAR E ENVIAR DADOS ------------------ */
 function fetchDatas(event) {
   event.preventDefault();
@@ -181,8 +201,43 @@ function fetchDatas(event) {
 }
 /* --------------------------------------------------------------------- */
 
-formulario.addEventListener("submit", fetchDatas);
+/* ------------- FUNÇÃO PARA VALIDAR E ENVIAR OS DADOS DO FORMULÁRIO ------------------ */
+function fetchDatas(event) {
+  event.preventDefault(); // Impede o envio padrão do formulário
 
+  // Valida cada campo antes de prosseguir
+  if (!checkNome(nome.value)) {
+    createDisplayMsgError(
+      "O nome não pode conter números ou caracteres especiais!"
+    );
+    return;
+  }
+
+  if (!checkEmail(email.value)) {
+    createDisplayMsgError("O e-mail digitado não é válido!");
+    return;
+  }
+
+  if (!checkPasswordMatch()) {
+    createDisplayMsgError("As senhas digitadas não coincidem!");
+    return;
+  }
+
+  const senhaError = checkPasswordStrength(password.value);
+  if (senhaError) {
+    createDisplayMsgError(senhaError);
+    return;
+  }
+
+  if (tel.value && /[A-Za-zÀ-ÿ]/.test(tel.value)) {
+    createDisplayMsgError("O telefone deve conter apenas números");
+    return;
+  }
+  formulario.addEventListener("submit", fetchDatas);
+}
+/* --------------------------------------------------------------------- */
+
+/* ------------- ADICIONANDO EVENTOS------------------ */
 nome.addEventListener("input", () => {
   if (nome.value && !checkNome()) {
     createDisplayMsgError(
@@ -208,6 +263,7 @@ password.addEventListener("input", () => {
     createDisplayMsgError("");
   }
 });
+/* --------------------------------------------------------------------- */
 
 function checkPasswordStrength(password) {
   if (!/[a-z]/.test(password)) {

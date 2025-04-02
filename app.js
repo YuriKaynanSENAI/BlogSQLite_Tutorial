@@ -1,6 +1,7 @@
 //   "biblioteca"
 const express = require("express"); // Importa lib do Express
 const sqlite3 = require("sqlite3"); // Importa lib do sqlite3
+const bodyParser = require("body-parser"); // Importa o body-parser
 
 const PORT = 8000; // Irá chamar a Porta TCP do servidor HTTP da aplicação
 
@@ -11,7 +12,7 @@ const db = new sqlite3.Database("user.db"); // Instância para uso do Sqlite3, e
 db.serialize(() => {
   // Este método permite enviar comandos SQL em modo 'sequencial'
   db.run(
-    "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT)"
+    "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, email TEXT, celular TEXT, cpf TEXT, rg TEXT)"
   );
 });
 
@@ -20,10 +21,14 @@ db.serialize(() => {
 
 // Aqui será acrescentado uma rota "/static", para a pasta _dirname + "/static"
 // O app.use é usado para acrenscentar rotas para o Express gerenciar e pode usar
+
 // Middleware para isto, que neste caso é o express.static, que gerencia rotas estáticas.
 app.use("/static", express.static(__dirname + "/static"));
 
-// Configura EJS como o motor de visualização
+// Middleware para processar as requisições do body Parameters do cliente
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Configura EJS como o motor de visualização, vai procurar as paginas e carregalas para o usuario.
 app.set("view engine", "ejs");
 
 // const index =
@@ -41,21 +46,46 @@ o segundo, são os dados que serão enviados ao cliente (RESULT - 'res') */
 app.get("/", (req, res) => {
   // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000
   // res.send(index);
-  res.render("index");
+  console.log("GET /index");
+  // res.render("index");
+  res.redirect("/cadastro"); // Redirecinqa para a ROTA cadastro
 });
 
-app.get("/home", (req, res) => {
-  res.send(home);
+// GET do cadastro
+app.get("/cadastro", (req, res) => {
+  console.log("GET /cadastro");
+  // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000/cadastro
+  res.render("cadastro");
 });
+
+// POST do cadastro
+app.post("/cadastro", (req, res) => {
+  console.log("POST /cadastro");
+  // Linha para depurar se está vindo dados no req.nody
+  req.body
+    ? console.log(JSON.stringify(req.body))
+    : console.log(`Body vazio: ${req.body}`);
+
+  res.send(
+    `Bem-vindo usuário: ${req.body.nome}, seu email é ${req.body.email}`
+  );
+});
+
+// app.get("/home", (req, res) => {
+//   res.send(home);
+// });
 
 // Programação de rotas do método GET do HTTP 'app.get()'
 app.get("/sobre", (req, res) => {
-  // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000/sobre
-  res.send(sobre);
+  console.log("GET /sobre");
+  // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000/cadastro
+  res.render("sobre");
 });
 
 app.get("/login", (req, res) => {
+  console.log("GET /login");
   // res.send(login);
+  // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000/info
   res.render("login");
 });
 
@@ -63,13 +93,9 @@ app.post("/login", (req, res) => {
   res.send("Login ainda não implementado.");
 });
 
-app.get("/cadastro", (req, res) => {
-  res.send(cadastro);
-});
-
-app.get("/info", (req, res) => {
-  res.send(info);
-});
+// app.get("/info", (req, res) => {
+//   res.send(info);
+// });
 
 // app.get("/info", (req, res) => {
 //   // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000/info

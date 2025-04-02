@@ -4,12 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Atividade Formulário</title>
+
     <!--LINK PARA CSS ESXTERNO-->
     <link rel="stylesheet" href="/static/styles/styles.css" />
+
     <!--LINK PARA JS EXTERNO-->
     <script src="/static/scripts/scripts.js" defer></script>
   </head>
   <body>
+    <header>
+      <a href="" class="logo">LOGO</a>
+      <nav>
+        <a href="">Home</a>
+        <a href="/sobre">Sobre</a>
+        <a href="/cadastro">Cadastro</a>
+        <a href="/login">Login</a>
+      </nav>
+    </header>
     <div class="container_rain">
       <span class="cloud"></span>
       <span class="cloud"></span>
@@ -24,12 +35,10 @@
           descubra novos lugares ao redor do mundo!
         </p>
       </div>
-      <form id="cadastroForm">
+      <form id="cadastroForm" method="post" action="/cadastro">
         <div class="title">
           <h1>Cadastre-se</h1>
-          <p>
-            Preencha os campos a baixo e torne-se parte da nossa comunidade.
-          </p>
+          <p>Preencha os campos abaixo e torne-se parte da nossa comunidade.</p>
         </div>
 
         <div class="input_data">

@@ -23,7 +23,7 @@ const checkNome = () => {
 };
 /* --------------------------------------------------------------------- */
 
-/* ---------- FUNÇÃO PARA VERIFICAR O EMAIL --------------------- */
+/* ------------------FUNÇÃO PARA VERIFICAR O EMAIL --------------------- */
 const checkEmail = (email) => {
   const partesEmail = email.split("@");
 
@@ -265,24 +265,24 @@ password.addEventListener("input", () => {
 });
 /* --------------------------------------------------------------------- */
 
-function checkPasswordStrength(password) {
-  if (!/[a-z]/.test(password)) {
-    return "A senha deve ter pelo menos uma letra minúscula!";
-  }
-  if (!/[A-Z]/.test(password)) {
-    return "A senha deve ter pelo menos uma letra maiúscula!";
-  }
-  if (!/[\W_]/.test(password)) {
-    return "A senha deve ter pelo menos um caractere especial!";
-  }
-  if (!/\d/.test(password)) {
-    return "A senha deve ter pelo menos um número!";
-  }
-  if (password.length < 8) {
-    return "A senha deve ter pelo menos 8 caracteres!";
-  }
+// function checkPasswordStrength(password) {
+//   if (!/[a-z]/.test(password)) {
+//     return "A senha deve ter pelo menos uma letra minúscula!";
+//   }
+//   if (!/[A-Z]/.test(password)) {
+//     return "A senha deve ter pelo menos uma letra maiúscula!";
+//   }
+//   if (!/[\W_]/.test(password)) {
+//     return "A senha deve ter pelo menos um caractere especial!";
+//   }
+//   if (!/\d/.test(password)) {
+//     return "A senha deve ter pelo menos um número!";
+//   }
+//   if (password.length < 8) {
+//     return "A senha deve ter pelo menos 8 caracteres!";
+//   }
 
-  return null;
-}
+//   return null;
+// }
 
 tel.addEventListener("input", maskPhoneNumber);

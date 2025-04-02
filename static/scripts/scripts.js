@@ -78,6 +78,40 @@ function maskPhoneNumber(event) {
 }
 /* --------------------------------------------------------------------- */
 
+/* ----------- FUNÇÃO PARA INSERIR MÁSCARA NO CPF ----------------- */
+function maskCPF(event) {
+  let CPF = event.target.value.replace(/[^0-9]/gi, ""); // Remove tudo que não seja número
+
+  CPF = CPF.substring(0, 11); // Limita a 11 caracteres
+
+  // Aplica a máscara XXX.XXX.XXX-XX
+  CPF = CPF.replace(/(\d{3})(\d)/, "$1.$2");
+  CPF = CPF.replace(/(\d{3})\.(\d{3})(\d)/, "$1.$2.$3");
+  CPF = CPF.replace(/(\d{3})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3-$4");
+
+  event.target.value = CPF; // Atualiza o valor do campo CPF
+}
+
+CPF.addEventListener("input", maskCPF); // Aplica a máscara ao campo CPF enquanto o usuário digita
+/* --------------------------------------------------------------------- */
+
+/* ----------- FUNÇÃO PARA INSERIR MÁSCARA NO RG ----------------- */
+function maskRG(event) {
+  let RG = event.target.value.replace(/[^0-9X]/gi, ""); // Remove tudo que não seja número ou "X"
+
+  RG = RG.substring(0, 9); // Limita a 9 caracteres
+
+  // Aplica a máscara XX.XXX.XXX-X
+  RG = RG.replace(/(\w{2})(\w)/, "$1.$2");
+  RG = RG.replace(/(\w{2})\.(\w{3})(\w)/, "$1.$2.$3");
+  RG = RG.replace(/(\w{2})\.(\w{3})\.(\w{3})(\w)/, "$1.$2.$3-$4");
+
+  event.target.value = RG; // Atualiza o valor do campo RG
+}
+
+RG.addEventListener("input", maskRG); // Aplica a máscara ao campo RG enquanto o usuário digita
+/* --------------------------------------------------------------------- */
+
 /* ------------- FUNÇÃO PARA VERIFICAR FORÇA DA SENHA ------------------ */
 function checkPasswordStrength(password) {
   if (!/[a-z]/.test(password)) {

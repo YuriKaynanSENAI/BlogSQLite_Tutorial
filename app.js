@@ -28,7 +28,7 @@ app.use("/static", express.static(__dirname + "/static"));
 // Middleware para processar as requisições do body Parameters do cliente
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Configura EJS como o motor de visualização, vai procurar as paginas e carregalas para o usuario.
+// Configura EJS como o motor de visualização
 app.set("view engine", "ejs");
 
 // const index =
@@ -47,19 +47,30 @@ app.get("/", (req, res) => {
   // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000
   // res.send(index);
   console.log("GET /index");
-  // res.render("index");
-  res.redirect("/cadastro"); // Redirecinqa para a ROTA cadastro
+  res.render("index");
+  //res.redirect("/cadastro"); // Redireciona para a ROTA cadastro
+});
+
+app.get("/usuarios", (req, res) => {
+  const query = "SELECT * FROM users";
+  db.all(query, (err, row) => {
+    console.log(`GET /usarios ${JSON.stringify(row)}`);
+    // res.send("Lista de usuários");
+    res.render("usertable");
+  });
 });
 
 // GET do cadastro
 app.get("/cadastro", (req, res) => {
   console.log("GET /cadastro");
-  // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000/cadastro
+  // Linha para depurar se está vindo dados no req.body
   res.render("cadastro");
 });
 
 // POST do cadastro
 app.post("/cadastro", (req, res) => {
+  // req: Informação que é mandada pro servidor pelo cliente
+  // res: É a resposta do servidor para o cliente
   console.log("POST /cadastro");
   // Linha para depurar se está vindo dados no req.nody
   !req.body
@@ -67,43 +78,28 @@ app.post("/cadastro", (req, res) => {
     : console.log(`Body vazio: ${req.body}`);
 
   const { username, password, email, celular, cpf, rg } = req.body;
-
   // Colocar aqui as validações e inclusão no banco de dados do cadastro do usuario
-
   // 1. Validar dados do usuário
-
   // 2. Saber-se ele já existe no banco
-
   const query =
     "SELECT * FROM users WHERE email=? OR cpf=? OR rg=? OR username=?";
-
   db.get(query, [email, cpf, rg, username], (err, row) => {
     if (err) throw err;
-
     console.log(`${JSON.stringify(row)}`);
-
     if (row) {
       // A variável 'row' irá retornar os dados do banco de dados,
-
       // executado através do SQL, variável query
-
       res.send("Usuário já cadastrado, refaça o cadastro");
     } else {
       // 3. Se o usuário não existe no banco cadastrar
-
       const insertQuery =
         "INSERT INTO users (username, password, email, celular, cpf, rg) VALUES (?,?,?,?,?,?)";
-
       db.run(
         insertQuery,
-
         [username, password, email, celular, cpf, rg],
-
         (err) => {
           // Inserir a lógica do INSERT
-
           if (err) throw err;
-
           res.send("Usuário cadastrado, com sucesso");
         }
       );
@@ -111,9 +107,7 @@ app.post("/cadastro", (req, res) => {
   });
 
   // res.send(
-
   //   `Bem-vindo usuário: ${req.body.nome}, seu email é ${req.body.email}`
-
   // );
 });
 
@@ -139,17 +133,20 @@ app.post("/login", (req, res) => {
   res.send("Login ainda não implementado.");
 });
 
-app.get("/foradecasa", (req, res) => {
-  // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000
-
-  // res.send(index);
-
-  console.log("GET /foradecasa");
-
-  res.render("foradecasa");
-
-  //res.redirect("/cadastro"); // Redirecinqa para a ROTA cadastro
+app.get("/dashboard", (req, res) => {
+  console.log("GET /dashboard");
+  // res.send(login);
+  // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000/info
+  res.render("dashboard");
 });
+
+// app.get("/foradecasa", (req, res) => {
+//   // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000
+//   // res.send(index);
+//   console.log("GET /foradecasa");
+//   res.render("foradecasa");
+//   //res.redirect("/cadastro"); // Redirecinqa para a ROTA cadastro
+// });
 
 // app.get("/info", (req, res) => {
 //   res.send(info);

@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Atividade Formulário</title>
 
-    <!--LINK PARA CSS ESXTERNO-->
     <link rel="stylesheet" href="/static/styles/styles.css" />
 
-    <!--LINK PARA JS EXTERNO-->
-    <script src="/static/scripts/scripts.js" defer></script>
+    <script src="/static/scripts/script.js" defer></script>
   </head>
   <body>
+    <%# Este é um comentário em EJS %>
     <!-- <header>
       <a href="" class="logo">LOGO</a>
       <nav>
@@ -45,46 +44,88 @@
         </div>
 
         <div class="input_data">
-          <input type="text" id="nome" required />
+          <input
+            type="text"
+            id="nome"
+            name="username"
+            value="marcio"
+            required
+          />
           <label for="">Nome</label>
         </div>
 
         <div class="input_data">
-          <input type="email" id="email" required />
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value="marcio@gmail.com"
+            required
+          />
           <label for="">Email</label>
         </div>
-
         <div class="input_data">
-          <input type="password" id="password" required />
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value="Aa123456!"
+            required
+          />
           <label for="">Senha</label>
         </div>
-
         <div class="input_data">
-          <input type="password" id="COpassword" required />
+          <input
+            type="password"
+            id="ConfirmarSenha"
+            name="ConfirmarSenha"
+            value="Aa123456!"
+            required
+          />
           <label for="">Confirmar Senha</label>
         </div>
-
         <div class="input_data">
-          <input type="tel" id="tel" maxlength="15" required />
-          <label for="">Telefone</label>
+          <input
+            type="tel"
+            id="celular"
+            name="celular"
+            maxlength="15"
+            value="19 9999 9999"
+            required
+          />
+          <label for="">Celular</label>
         </div>
-
         <div class="input_data">
-          <input type="text" id="CPF" name="CPF" required />
+          <input
+            type="text"
+            id="cpf"
+            name="cpf"
+            value="111222333-44"
+            maxlength="14"
+            oninput="maskCPF(this)"
+            required
+          />
           <label for="">CPF</label>
         </div>
-
         <div class="input_data">
-          <input type="text" id="RG" required />
+          <input
+            type="text"
+            id="rg"
+            name="rg"
+            value="111.222.333-4"
+            maxlength="9"
+            oninput="maskRG(this)"
+            required
+          />
           <label for="">RG</label>
         </div>
 
-        <div class="btnArea">
+        <div class="bntArea">
           <p class="msgError"></p>
-          <button id="btnSubmit" type="submit">Enviar</button>
+          <button id="bntSubmit" type="submit">Enviar</button>
         </div>
       </form>
     </section>
-    <footer><p>&copy; Direito reservado! 2025</p></footer>
+    <%- include("footer") %>
   </body>
 </html>

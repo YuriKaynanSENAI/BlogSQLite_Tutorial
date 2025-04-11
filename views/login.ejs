@@ -6,21 +6,32 @@
     <title>Atividade Formulário</title>
 
     <!--LINK CSS-->
-    <link rel="stylesheet" href="/static/styles/styles.css" />
+    <link rel="stylesheet" href="../static/styles/styles.css" />
 
     <!--LINK JAVA-->
-    <script src="/static/scripts/scripts.js" defer></script>
+    <!-- <script src="../static/scripts/script.js" defer></script> -->
   </head>
   <body>
+    <!-- <header>
+      <a href="" class="logo">LOGO</a>
+      <nav>
+        <a href="">Home</a>
+        <a href="/sobre">Sobre</a>
+        <a href="/cadastro">Cadastro</a>
+        <a href="/login">Login</a>
+      </nav>
+    </header> -->
     <%- include("menu") %>
+
     <div class="container_rain">
       <span class="cloud"></span>
       <span class="cloud"></span>
       <span class="cloud"></span>
+      <span class="sun"></span>
     </div>
     <section class="container">
       <div class="image_container">
-        <h1>Crie sua conta</h1>
+        <h1>Bem-Vindo</h1>
         <p>
           Compartilhe suas aventuras e <br />
           descubra novos lugares ao redor do mundo!
@@ -33,7 +44,7 @@
         </div>
 
         <div class="input_data">
-          <input type="text" id="nome" name="nome" required />
+          <input type="text" id="nome" name="username" required />
           <label for="">Nome</label>
         </div>
 
@@ -73,12 +84,13 @@
           <label for="">RG</label>
         </div> -->
 
-        <div class="btnArea">
+        <div class="bntArea">
           <p class="msgError"></p>
           <button id="bntSubmit" type="submit">Enviar</button>
         </div>
       </form>
+      <div><%- include("usertable") %></div>
     </section>
-    <footer><p>&copy; Direito reservado! 2025</p></footer>
+    <%- include("footer") %>
   </body>
 </html>

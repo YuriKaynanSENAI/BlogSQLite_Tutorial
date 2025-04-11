@@ -1,7 +1,7 @@
 {
   "name": "blogsqlite_tutorial",
   "version": "1.0.0",
-  "description": "tutorial BlogSQLite",
+  "description": "Tutorial BlogSQLite",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

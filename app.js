@@ -62,7 +62,7 @@ app.get("/cadastro", (req, res) => {
 app.post("/cadastro", (req, res) => {
   console.log("POST /cadastro");
   // Linha para depurar se está vindo dados no req.nody
-  req.body
+  !req.body
     ? console.log(JSON.stringify(req.body))
     : console.log(`Body vazio: ${req.body}`);
 

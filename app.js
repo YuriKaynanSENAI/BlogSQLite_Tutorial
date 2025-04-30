@@ -5,6 +5,8 @@ const bodyParser = require("body-parser"); // Importa o body-parser
 
 const PORT = 8000; // Irá chamar a Porta TCP do servidor HTTP da aplicação
 
+let config = { Pagina: "", footer: "" };
+
 const app = express(); // Instância para uso do Express
 
 const db = new sqlite3.Database("user.db"); // Instância para uso do Sqlite3, e usa o arquivo 'user.db'
@@ -45,10 +47,12 @@ o segundo, são os dados que serão enviados ao cliente (RESULT - 'res') */
 
 app.get("/", (req, res) => {
   // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000
-  // res.send(index);
   console.log("GET /index");
-  res.render("pages/index");
-  //res.redirect("/cadastro"); // Redireciona para a ROTA cadastro
+
+  config = { Pagina: "Blog da turma I2HNA - SESI Nova Odessa", footer: "" };
+  // config.rodape = "1";
+  res.render("pages/index", config);
+  // res.render("pages/index",
 });
 
 app.get("/usuarios", (req, res) => {
@@ -63,8 +67,9 @@ app.get("/usuarios", (req, res) => {
 // GET do cadastro
 app.get("/cadastro", (req, res) => {
   console.log("GET /cadastro");
+  config = { Pagina: "Págiina de Cadastro", footer: "" };
   // Linha para depurar se está vindo dados no req.body
-  res.render("pages/cadastro");
+  res.render("pages/cadastro", config);
 });
 
 // POST do cadastro
@@ -118,15 +123,17 @@ app.post("/cadastro", (req, res) => {
 // Programação de rotas do método GET do HTTP 'app.get()'
 app.get("/sobre", (req, res) => {
   console.log("GET /sobre");
+  config = { Pagina: "Sobre nosso Site", footer: "" };
   // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000/cadastro
-  res.render("pages/sobre");
+  res.render("pages/sobre", config);
 });
 
 app.get("/login", (req, res) => {
   console.log("GET /login");
+  config = { Pagina: "Página de Login", footer: "" };
   // res.send(login);
   // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000/info
-  res.render("pages/login");
+  res.render("pages/login", config);
 });
 
 app.post("/login", (req, res) => {
@@ -137,7 +144,7 @@ app.get("/dashboard", (req, res) => {
   console.log("GET /dashboard");
   // res.send(login);
   // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000/info
-  res.render("pages/dashboard");
+  res.render("pages/dashboard", config);
 });
 
 // app.get("/foradecasa", (req, res) => {

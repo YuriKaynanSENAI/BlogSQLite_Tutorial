@@ -314,7 +314,7 @@ header nav a:hover {
   #cadastroForm {
     padding: 15px;
   }
-  \ .cloud:nth-child(3) {
+  .cloud:nth-child(3) {
     top: 7%;
     left: -20%;
   }

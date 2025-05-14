@@ -58,9 +58,15 @@ app.get("/", (req, res) => {
   // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000
   console.log("GET /index");
 
-  config = { Pagina: "Blog da turma I2HNA - SESI Nova Odessa", footer: "" };
+  config = {
+    Pagina: "Blog da turma I2HNA - SESI Nova Odessa",
+    footer: "",
+  };
+
   // config.rodape = "1";
-  res.render("pages/index", config);
+  // config = { Pagina: "Blog da turma I2HNA - SESI Nova Odessa", footer: "" };
+  // console.log(`${JSON.stringify({ ...config, req: req })}`)
+  res.render("pages/index", { ...config, req: req });
   // res.render("pages/index",
 });
 
@@ -75,17 +81,17 @@ app.get("/usuarios", (req, res) => {
 
 // GET do cadastro
 app.get("/cadastro", (req, res) => {
-  console.log("GET /cadastrar");
-  config = { Pagina: "Págiina de Cadastro", footer: "" };
+  console.log("GET /cadastro");
+  config = { Pagina: "Página de Cadastro", footer: "" };
   // Linha para depurar se está vindo dados no req.body
-  res.render("pages/cadastrar", config);
+  res.render("pages/cadastro", { ...config, req: req });
 });
 
 // POST do cadastro
-app.post("/cadastrar", (req, res) => {
+app.post("/cadastro", (req, res) => {
   // req: Informação que é mandada pro servidor pelo cliente
   // res: É a resposta do servidor para o cliente
-  console.log("POST /cadastrar");
+  console.log("POST /cadastro");
   // Linha para depurar se está vindo dados no req.nody
   !req.body
     ? console.log(JSON.stringify(req.body))
@@ -130,11 +136,11 @@ app.post("/cadastrar", (req, res) => {
 // });
 
 // Programação de rotas do método GET do HTTP 'app.get()'
-app.get("/about", (req, res) => {
-  console.log("GET /about");
+app.get("/sobre", (req, res) => {
+  console.log("GET /sobre");
   config = { Pagina: "Sobre nosso Site", footer: "" };
   // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000/cadastro
-  res.render("pages/about", config);
+  res.render("pages/sobre", { ...config, req: req });
 });
 
 app.get("/login", (req, res) => {
@@ -142,7 +148,7 @@ app.get("/login", (req, res) => {
   config = { Pagina: "Página de Login", footer: "" };
   // res.send(login);
   // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000/info
-  res.render("pages/login", config);
+  res.render("pages/login", { ...config, req: req });
 });
 
 app.post("/login", (req, res) => {
@@ -168,21 +174,19 @@ app.post("/login", (req, res) => {
 
 app.get("/dashboard", (req, res) => {
   console.log("GET /dashboard");
+  config = { Pagina: "Dashboard", footer: "" };
   // res.send(login);
   // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000/info
-  res.render("pages/dashboard", config);
+  res.render("pages/dashboard", { ...config, req: req });
 });
 
-// Rota para processar a saida (logout) do usuário
-// Utilize-o para encerrar a sessão do usuário
-// Dica 1: Coloque um link de 'SAIR' na sua aplicação web
-// Dica 2: Você pode implementar um controle de tempo de sessão e encerrar a sessão do usuário caso este tempo passe.
 app.get("/logout", (req, res) => {
   // Exemplo de uma rota (END POINT) controlado pela sessão do usuário logado.
   req.session.destroy(() => {
     res.redirect("/");
   });
 });
+
 // app.get("/foradecasa", (req, res) => {
 //   // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000
 //   // res.send(index);

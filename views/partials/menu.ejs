@@ -2,11 +2,27 @@
   <a href="" class="logo">LOGO</a>
   <nav>
     <a href="/">Home</a>
-    <a href="/about">Sobre</a>
-    <a href="/cadastrar">Cadastro</a>
-    <a href="/login">Login</a>
-    <a href="/dashboard">Dashboard</a>
 
-    <!-- <a href="/foradecasa">Lugarnenhum</a> -->
+    <a href="/sobre">Sobre</a>
+
+    <% if(!req.session.loggedin){ %>
+
+    <a class="nav-link" href="/login">Login</a>
+
+    <a class="nav-link" href="/cadastro">Cadastro</a>
+    <% } else{ %>
+    <a class="nav-link" href="/dashboard">Dashboard</a>
+
+    <a class="nav-link" href="/logout">Sair (<%= req.session.username %>)</a>
+
+    <% } %>
   </nav>
 </header>
+
+<!-- 
+<a href="/cadastro">Cadastro</a>
+<a href="/login">Login</a>
+<a href="/dashboard">Dashboard</a>
+<a class="nav-link" href="/logout">Sair</a>
+
+<a href="/foradecasa">Lugarnenhum</a> -->

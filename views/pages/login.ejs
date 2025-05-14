@@ -1,52 +1,44 @@
 <!DOCTYPE html>
-<html lang="ptbr">
-  <head>
-    <%- include('../partials/head'); %>
-  </head>
+<html lang="pt-BR">
+  <body>
+    <%- include("../partials/head"); %> <%- include("../partials/menu") %>
 
-  <body class="container">
-    <header class="container"><%- include('../partials/header'); %></header>
-
-    <main class="container">
-      <!-- <div class="jumbotron"></div> -->
-      <div class="container-sm border">
-        <div class="form-group">
-          <h3 style="text-align: center">Login</h3>
-          <form action="/login" method="post">
-            <div class="form-group">
-              <div><label for="username">Usuário:</label></div>
-              <div>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  required
-                  class="form-control"
-                />
-              </div>
-            </div>
-            <div class="form-group">
-              <div><label for="password">Senha:</label></div>
-              <div>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  required
-                  class="form-control"
-                />
-              </div>
-            </div>
-            <div>
-              <button type="submit" class="form-control btn btn-dark">
-                ENTRAR
-              </button>
-            </div>
-          </form>
-        </div>
+    <div class="container_rain">
+      <span class="cloud"></span>
+      <span class="cloud"></span>
+      <span class="cloud"></span>
+      <span class="sun"></span>
+    </div>
+    <section class="container">
+      <div class="image_container">
+        <h1>Bem-Vindo</h1>
+        <p>
+          Compartilhe suas aventuras e <br />
+          descubra novos lugares ao redor do mundo!
+        </p>
       </div>
-    </main>
+      <form id="cadastroForm" action="/login" method="post">
+        <div class="title">
+          <h1>Login</h1>
+          <p>Preencha os campos abaixo e entre na nossa comunidade.</p>
+        </div>
 
-    <footer class="container"><%- include('../partials/footer'); %></footer>
+        <div class="input_data">
+          <input type="text" id="nome" name="username" required />
+          <label>Nome</label>
+        </div>
+
+        <div class="input_data">
+          <input type="password" id="password" name="password" required />
+          <label>Senha</label>
+        </div>
+
+        <div class="bntArea">
+          <p class="msgError"></p>
+          <button id="bntSubmit" type="submit">Enviar</button>
+        </div>
+      </form>
+    </section>
+    <%- include("../partials/footer") %>
   </body>
 </html>

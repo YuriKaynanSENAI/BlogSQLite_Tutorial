@@ -1,23 +1,117 @@
 <!DOCTYPE html>
-<html lang="ptbr">
-  <head>
-    <%- include('../partials/head'); %>
-  </head>
+<html lang="pt-BR">
+  <%- include("../partials/head"); %>
+  <body>
+    <%- include("../partials/menu") %>
 
-  <body class="container">
-    <header>
-      <%- include('../partials/header'); %> <% if(req.session.loggedin) { %> <%-
-      include('../partials/menu_dashboard'); %> <% } %>
-    </header>
+    <div class="container_rain">
+      <span class="cloud"></span>
+      <span class="cloud"></span>
+      <span class="cloud"></span>
+    </div>
 
-    <main>
-      <div class="jumbotron">
-        <h1>Aplicação inicial utilizando templates com Express e EJS</h1>
-        <p>Seja bem-vindo e modifique conforme sua necessidade</p>
-        <!-- <div class="d-flex flex-nowrap bd-highlight"> -->
-        <%- include('../partials/flex-images-wrap'); %>
+    <section class="container">
+      <div class="image_container">
+        <h1>Crie sua conta</h1>
+        <p>
+          Compartilhe suas aventuras e <br />
+          descubra novos lugares ao redor do mundo!
+        </p>
       </div>
-    </main>
-    <footer><%- include('../partials/footer'); %></footer>
+      <form id="cadastroForm" method="post" action="/cadastro">
+        <div class="title">
+          <h1>Cadastre-se</h1>
+          <p>Preencha os campos abaixo e torne-se parte da nossa comunidade.</p>
+        </div>
+
+        <div class="input_data">
+          <input
+            type="text"
+            id="nome"
+            name="username"
+            value="marcio"
+            required
+          />
+          <label for="">Nome</label>
+        </div>
+
+        <div class="input_data">
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value="marcio@gmail.com"
+            required
+          />
+          <label for="">Email</label>
+        </div>
+
+        <div class="input_data">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value="Aa123456!"
+            required
+          />
+          <label for="">Senha</label>
+        </div>
+
+        <div class="input_data">
+          <input
+            type="password"
+            id="ConfirmarSenha"
+            name="ConfirmarSenha"
+            value="Aa123456!"
+            required
+          />
+          <label for="">Confirmar Senha</label>
+        </div>
+
+        <div class="input_data">
+          <input
+            type="tel"
+            id="celular"
+            name="celular"
+            maxlength="15"
+            value="19 9998 9999"
+            required
+          />
+          <label for="">Celular</label>
+        </div>
+
+        <div class="input_data">
+          <input
+            type="text"
+            id="cpf"
+            name="cpf"
+            value="111222333-44"
+            maxlength="14"
+            oninput="maskCPF(this)"
+            required
+          />
+          <label for="">CPF</label>
+        </div>
+
+        <div class="input_data">
+          <input
+            type="text"
+            id="rg"
+            name="rg"
+            value="111.222.333-5"
+            maxlength="9"
+            oninput="maskRG(this)"
+            required
+          />
+          <label for="">RG</label>
+        </div>
+
+        <div class="bntArea">
+          <p class="msgError"></p>
+          <button id="bntSubmit" type="submit">Enviar</button>
+        </div>
+      </form>
+    </section>
+    <%- include("../partials/footer") %>
   </body>
 </html>

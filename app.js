@@ -1,155 +1,176 @@
-const express = require("express");
+const express = require("express"); // Importa lib do Express
+const sqlite3 = require("sqlite3"); // Importa lib do sqlite3
+const bodyParser = require("body-parser"); // Importa o body-parser
 const session = require("express-session");
-const bodyParser = require("body-parser");
-const https = require("https");
 
-const fs = require("fs");
-const sqlite3 = require("sqlite3").verbose();
+const PORT = 8000; // Irá chamar a Porta TCP do servidor HTTP da aplicação
 
-const app = express();
+let config = { Pagina: "", footer: "" };
 
-// Configurando o banco de dados SQLite
-const db = new sqlite3.Database("user.db"); // Altere o nome do arquivo do banco de dados se precisar
+const app = express(); // Instância para uso do Express
 
-// Cria a tabela 'users' se não existir no arquivo do SQLite
+const db = new sqlite3.Database("user.db"); // Instância para uso do Sqlite3, e usa o arquivo 'user.db'
+
 db.serialize(() => {
+  // Este método permite enviar comandos SQL em modo 'sequencial'
   db.run(
-    "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT)"
+    "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT, email TEXT, celular TEXT, cpf TEXT, rg TEXT)"
   );
 });
 
-// Configuração da sessão
+// Configuração para uso de sessão (cookies) com Express
 app.use(
   session({
-    secret: "YourSecretKeyForSessionEncryption",
+    secret: "qualquersenha",
     resave: true,
     saveUninitialized: true,
   })
 );
 
-// Configura uma rota estática, colocar nesta pasta arquivos de imagem, css, pdf, etc...
-app.use("/", express.static(__dirname + "/static"));
+// _dirname é a variável interna do nodejs que guarda o caminho absoluto do projeto, no SO
+//console.log(__dirname + "/static");
 
-// Engine do Express para processar o EJS (templates)
-// Lembre-se que para uso do EJS uma pasta (diretório) 'views', precisa existir na raiz do projeto.
-// E que todos os EJS serão processados a partir desta pasta
+// Aqui será acrescentado uma rota "/static", para a pasta _dirname + "/static"
+// O app.use é usado para acrenscentar rotas para o Express gerenciar e pode usar
 
-// Configuração do middleware para o EJS
+// Middleware para isto, que neste caso é o express.static, que gerencia rotas estáticas.
+app.use("/static", express.static(__dirname + "/static"));
+
+// Middleware para processar as requisições do body Parameters do cliente
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Configurar EJS como o motor de visualização
+// Configura EJS como o motor de visualização
 app.set("view engine", "ejs");
-// Configuração das rotas do servidor HTTP
-// A lógica ddo processamento de cada rota deve ser realizada aqui
+
+// const index =
+//   "<a href='/home'> Home</a><a href='/sobre'> Sobre</a><a href='/login'> Login</a><a href='/cadastro'> Cadastro</a><a href='/info'> Info</a>";
+// const home = 'Vc está na página "Home"<br><a href="/">Voltar</a>';
+// const sobre = 'Vc está na página "Sobre"<br><a href="/">Voltar</a>';
+// const login = 'Vc está na página "Login"<br><a href="/">Voltar</a>';
+// const cadastro = 'Vc está na página "Cadastro"<br><a href="/">Voltar</a>';
+// const info = 'Vc está na página "Info"<br><a href="/">Voltar</a>';
+
+/* Método express.get necessita de dois parâmetros
+// Na ARROW FUNCTION: o primeiro são os daods do servidor (REQUISITION - 'res'):
+o segundo, são os dados que serão enviados ao cliente (RESULT - 'res') */
+
 app.get("/", (req, res) => {
-  // Passe a variável 'req' para o template e use-a nas páginas para renderizar partes do HTML conforme determinada condição
-  // Por exemplo de o usuário estive logado, veja este exemplo no arquivo views/partials/header.ejs
-  res.render("pages/index", { req: req });
-  // Caso haja necessidade coloque pontos de verificação para verificar pontos da sua logica de negócios
-  console.log(
-    `${
-      req.session.username
-        ? `User ${req.session.username} logged in from IP ${req.connection.remoteAddress}`
-        : "User not logged in."
-    }  `
-  );
+  // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000
+  console.log("GET /index");
+
+  config = { Pagina: "Blog da turma I2HNA - SESI Nova Odessa", footer: "" };
+  // config.rodape = "1";
+  res.render("pages/index", config);
+  // res.render("pages/index",
 });
 
-// Rota para a página de login
-app.get("/login", (req, res) => {
-  // Quando for renderizar páginas pelo EJS, passe parametros para ele em forma de JSON
-  res.render("pages/login", { req: req }); // Neste exemplo a váriavel req, que contém informações sobre a sessão está sendo enviada para o EJS
+app.get("/usuarios", (req, res) => {
+  const query = "SELECT * FROM users";
+  db.all(query, (err, row) => {
+    console.log(`GET /usarios ${JSON.stringify(row)}`);
+    // res.send("Lista de usuários");
+    res.render("partials/usertable");
+  });
 });
 
+// GET do cadastro
+app.get("/cadastro", (req, res) => {
+  console.log("GET /cadastrar");
+  config = { Pagina: "Págiina de Cadastro", footer: "" };
+  // Linha para depurar se está vindo dados no req.body
+  res.render("pages/cadastrar", config);
+});
+
+// POST do cadastro
+app.post("/cadastrar", (req, res) => {
+  // req: Informação que é mandada pro servidor pelo cliente
+  // res: É a resposta do servidor para o cliente
+  console.log("POST /cadastrar");
+  // Linha para depurar se está vindo dados no req.nody
+  !req.body
+    ? console.log(JSON.stringify(req.body))
+    : console.log(`Body vazio: ${req.body}`);
+
+  const { username, password, email, celular, cpf, rg } = req.body;
+  // Colocar aqui as validações e inclusão no banco de dados do cadastro do usuario
+  // 1. Validar dados do usuário
+  // 2. Saber-se ele já existe no banco
+  const query =
+    "SELECT * FROM users WHERE email=? OR cpf=? OR rg=? OR username=?";
+  db.get(query, [email, cpf, rg, username], (err, row) => {
+    if (err) throw err;
+    console.log(`${JSON.stringify(row)}`);
+    if (row) {
+      // A variável 'row' irá retornar os dados do banco de dados,
+      // executado através do SQL, variável query
+      res.send("Usuário já cadastrado, refaça o cadastro");
+    } else {
+      // 3. Se o usuário não existe no banco cadastrar
+      const insertQuery =
+        "INSERT INTO users (username, password, email, celular, cpf, rg) VALUES (?,?,?,?,?,?)";
+      db.run(
+        insertQuery,
+        [username, password, email, celular, cpf, rg],
+        (err) => {
+          // Inserir a lógica do INSERT
+          if (err) throw err;
+          res.send("Usuário cadastrado, com sucesso");
+        }
+      );
+    }
+  });
+
+  // res.send(
+  //   `Bem-vindo usuário: ${req.body.nome}, seu email é ${req.body.email}`
+  // );
+});
+
+// app.get("/home", (req, res) => {
+//   res.send(home);
+// });
+
+// Programação de rotas do método GET do HTTP 'app.get()'
 app.get("/about", (req, res) => {
-  res.render("pages/about", { req: req });
+  console.log("GET /about");
+  config = { Pagina: "Sobre nosso Site", footer: "" };
+  // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000/cadastro
+  res.render("pages/about", config);
 });
 
-// Rota para processar o formulário de login
+app.get("/login", (req, res) => {
+  console.log("GET /login");
+  config = { Pagina: "Página de Login", footer: "" };
+  // res.send(login);
+  // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000/info
+  res.render("pages/login", config);
+});
+
 app.post("/login", (req, res) => {
+  console.log("POST /login");
   const { username, password } = req.body;
 
+  // Consultar o usuário no banc de dados
   const query = "SELECT * FROM users WHERE username = ? AND password = ?";
-
   db.get(query, [username, password], (err, row) => {
     if (err) throw err;
 
+    // Se usuário válido -> Registra a sessão e redireciona para o dashboard
     if (row) {
-      // Utilize req.session às variáveis de sessão para controlar a lógica de sua página em função da sessão, como
-      // por exemplo se o usuário está autenticado (logado).
       req.session.loggedin = true;
-      req.session.username = username; // Crie variáveis de controle adicionais caso haja ncessidade
-      // req.session.dataLogin = new Date() // Exemplo de criação de variável de sessão para controlar o tempo de login.
+      req.session.username = username;
       res.redirect("/dashboard");
-    } else {
-      res.redirect("/login_failed");
+    } // Se não, envia a mensagem de erro (Usuário Inválido)
+    else {
+      res.send("Usuário Inválido");
     }
   });
-});
-
-// Rota para efetuar o cadastro de usuário no banco de dados
-app.get("/cadastrar", (req, res) => {
-  if (!req.session.loggedin) {
-    res.render("pages/cadastrar", { req: req });
-  } else {
-    res.redirect("/dashboard", { req: req });
-  }
-});
-
-app.post("/cadastrar", (req, res) => {
-  const { username, password } = req.body;
-  // Verifica se o usuário já se encontra cadastrado
-  const query = "SELECT * FROM users WHERE username = ?";
-
-  db.get(query, [username], (err, row) => {
-    if (err) throw err;
-
-    if (row) {
-      res.redirect("/register_failed");
-    } else {
-      // Caso não esteja cadastrado, cadastra o usuário
-      const insertQuery =
-        "INSERT INTO users (username, password) VALUES (?, ?)";
-      db.run(insertQuery, [username, password], (err) => {
-        if (err) throw err;
-        // Aqui o login será efetuado, após o cadastro.
-        req.session.loggedin = true;
-        req.session.username = username;
-        res.redirect("/register_ok");
-      });
-    }
-  });
-});
-
-app.get("/register_failed", (req, res) => {
-  res.render("pages/register_failed", { req: req });
-});
-
-app.get("/register_ok", (req, res) => {
-  res.render("pages/register_ok", { req: req });
-});
-
-app.get("/login_failed", (req, res) => {
-  console.log(JSON.stringify(req.status));
-  res.render("pages/login_failed", { req: req });
 });
 
 app.get("/dashboard", (req, res) => {
-  // Exemplo de uma rota (END POINT) controlado pela sessão do usuário logado.
-
-  if (req.session.loggedin) {
-    const query = "SELECT * FROM users";
-
-    db.all(query, (err, rows) => {
-      if (err) throw err;
-      //if (row) {
-      console.log(rows);
-      res.render("pages/dashboard", { row: rows, req: req });
-      //}
-    });
-  } else {
-    res.redirect("/login_failed");
-  }
+  console.log("GET /dashboard");
+  // res.send(login);
+  // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000/info
+  res.render("pages/dashboard", config);
 });
 
 // Rota para processar a saida (logout) do usuário
@@ -162,32 +183,24 @@ app.get("/logout", (req, res) => {
     res.redirect("/");
   });
 });
+// app.get("/foradecasa", (req, res) => {
+//   // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000
+//   // res.send(index);
+//   console.log("GET /foradecasa");
+//   res.render("foradecasa");
+//   //res.redirect("/cadastro"); // Redirecinqa para a ROTA cadastro
+// });
 
-app.get("/teste", (req, res) => {
-  res.render("pages/teste", { req: req });
+// app.get("/info", (req, res) => {
+//   res.send(info);
+// });
+
+// app.get("/info", (req, res) => {
+//   // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000/info
+//   res.send(info);
+// });
+
+// app.listen() deve ser o último comando da aplicação (app.js)
+app.listen(PORT, () => {
+  console.log(`Servidor sendo executado na porta ${PORT}!`);
 });
-
-// Verificar se a pasta 'certs' existe
-const certsPath = "./certs";
-if (fs.existsSync(certsPath)) {
-  // Configuração para HTTPS
-  const privateKey = fs.readFileSync(`${certsPath}/localhost.key`, "utf8");
-  const certificate = fs.readFileSync(`${certsPath}/localhost.crt`, "utf8");
-  const credentials = { key: privateKey, cert: certificate };
-
-  // Criar um servidor HTTPS
-  const httpsServer = https.createServer(credentials, app);
-
-  httpsServer.listen(3000, () => {
-    console.log("---------LoginSQLite----------");
-    console.log("Servidor HTTPS rodando na porta 3000");
-  });
-} else {
-  // Iniciar o servidor HTTP na porta 3000
-  app.listen(3001, () => {
-    console.log("---------LoginSQLite----------");
-    console.log(
-      'Servidor HTTP rodando na porta 3001. HTTPS não disponível (pasta "certs" não encontrada).'
-    );
-  });
-}

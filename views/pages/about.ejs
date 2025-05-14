@@ -1,35 +1,24 @@
 <!DOCTYPE html>
-<html lang="ptbr">
-  <head>
-    <%- include('../partials/head'); %>
-  </head>
+<html lang="pt-BR">
+  <%- include("../partials/head"); %>
+  <body>
+    <%- include("../partials/menu") %>
 
-  <body class="container">
-    <header>
-      <%- include('../partials/header'); %> <% if(req.session.loggedin) { %> <%-
-      include('../partials/menu_dashboard'); %> <% } %>
-    </header>
+    <div class="container_rain">
+      <span class="cloud"></span>
+      <span class="cloud"></span>
+      <span class="cloud"></span>
+    </div>
 
-    <main>
-      <div class="row">
-        <div class="col-sm-8">
-          <div class="jumbotron">
-            <h1>
-              Site de exemplo com Nodejs + SQLite + Express + EJS e Bootstrap
-            </h1>
-            <p>Fique a vontade para modificá-lo</p>
-          </div>
-        </div>
-
-        <div class="col-sm-4">
-          <div class="well">
-            <h3>Sidebar de exemplo</h3>
-            <%- include('../partials/flex-images-wrap'); %>
-          </div>
-        </div>
+    <section class="container">
+      <div class="image_container">
+        <h1>Sobre a Nossa Empresa</h1>
+        <p>
+          Compartilhe suas aventuras e <br />
+          descubra novos lugares ao redor do mundo!
+        </p>
       </div>
-    </main>
-
-    <footer><%- include('../partials/footer'); %></footer>
+    </section>
+    <%- include("../partials/footer") %>
   </body>
 </html>

@@ -5,7 +5,7 @@ const PORT = 8000; // Porta TCP do servidor HTTP da aplicação
 const app = express();
 
 const index = "<a href='/sobre'> Sobre</a><a href='/info'> Info</a>";
-const sobre = 'Vc está na página "sobre"<br><a href="/">Voltar</a>';
+const about = 'Vc está na página "sobre"<br><a href="/">Voltar</a>';
 const info = 'Vc está na página "info"<br><a href="/">Voltar</a>';
 
 /* Método express.get necessita de dois parâmetros
@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 // Programação de rotas do método GET do HTTP 'app.get()'
 app.get("/sobre", (req, res) => {
   // Rota raiz do meu servidor, acesse o browser com o endereço http://localhost:8000/sobre
-  res.send(sobre);
+  res.send(about);
 });
 
 app.get("/info", (req, res) => {

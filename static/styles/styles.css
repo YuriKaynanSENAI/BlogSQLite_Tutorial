@@ -19,8 +19,8 @@ body {
   height: 100vh;
   background: linear-gradient(
     159deg,
-    rgba(55, 85, 52, 1) 30%,
-    rgba(55, 71, 90, 1) 68%
+    rgb(71, 71, 71) 45%,
+    rgb(0, 0, 0) 68%
   );
   backdrop-filter: blur(20px);
   display: flex;
@@ -32,7 +32,7 @@ body {
 header {
   width: 100%;
   padding: 10px 15px;
-  background-color: #0f2a1d;
+  background-color: #0d0d0d;
   position: absolute;
   top: 0;
   left: 0;
@@ -74,7 +74,7 @@ footer p {
   letter-spacing: 1px;
 }
 
-.container_rain {
+/* .container_rain {
   position: absolute;
   top: 0;
   left: 0;
@@ -137,13 +137,28 @@ footer p {
     transform: translateY(80vh) scaleY(0.2);
     opacity: 0;
   }
+} */
+
+.error404{
+  width: 100%;
+  height: 100%;
+  background: url("/static/images/erro404.jpg") center / cover no-repeat;
+  border-radius: 0 40px 40px 0;
+
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+
 .container {
   width: 80%;
   height: 80%;
   background-color: #e3eed4;
   border-radius: 39px;
-  box-shadow: 2px -10px 30px #0f2a1d;
+  box-shadow: 2px 3px 14px #d1d1d1;
 
   display: grid;
   grid-template-columns: 40% 60%;
@@ -153,13 +168,20 @@ footer p {
 
   overflow: hidden;
 }
+table,
+th,
+td {
+  border: 1px, solid;
+  padding: 10px;
+  background-color: #375534;
+}
 
 .container1 {
   width: 80%;
   height: 80%;
-  background-color: #e3eed4;
+  background-color: transparent;
   border-radius: 39px;
-  box-shadow: 2px -10px 30px #0f2a1d;
+  box-shadow: 2px 3px 14px #d1d1d1;
   justify-items: center;
   align-items: center;
 
@@ -172,7 +194,6 @@ footer p {
   background: url("/static/images/wallpaper.jpg") center / cover no-repeat;
   border-radius: 0 40px 40px 0;
 
-  padding-left: 10%;
   position: relative;
   overflow: hidden;
 
@@ -187,12 +208,15 @@ footer p {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.4);
   z-index: 1;
 }
 
 .image_container1 h1,
 .image_container1 p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   z-index: 2;
   color: #e3eed4;
@@ -306,9 +330,10 @@ footer p {
   outline: 0;
   background-color: transparent;
   border-radius: 0;
-  border-bottom: 1px solid #0f2a1d;
-  color: #0f2a1d;
+  border-bottom: 1px solid #000000;
+  color: #000000;
 }
+
 
 #cadastroForm .input_data label {
   font-family: "Copperplate";
@@ -319,7 +344,7 @@ footer p {
   transform: translateY(-50%);
   transition: all 0.5s ease;
   z-index: 1;
-  color: #0f2a1d;
+  color: #000000;
 }
 
 #cadastroForm .input_data input:focus + label,
@@ -341,10 +366,10 @@ footer p {
 
 #cadastroForm .bntArea button {
   font-family: "Copperplate";
-  border: 1px solid #0f2a1d;
+  border: 1px solid #ffffff;
   width: 100%;
   padding: 10px 20px;
-  background-color: #0f2a1d;
+  background-color: #000000;
   color: #e3eed4;
   cursor: pointer;
   font-size: 18px;
@@ -353,8 +378,8 @@ footer p {
 
 #cadastroForm .bntArea button:hover {
   background-color: transparent;
-  border: 1px solid #0f2a1d;
-  color: #0f2a1d;
+  border: 1px solid #000000;
+  color: #000000;
   transition: 0.7s ease;
 }
 

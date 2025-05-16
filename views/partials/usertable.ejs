@@ -5,16 +5,18 @@
       <th scope="col">Nome</th>
       <th scope="col">Email</th>
       <th scope="col">Celular</th>
+      <th scope="col">Senha</th>
     </tr>
   </thead>
   <tbody>
-    <% for( let index = 0; index < 5; index++) { %> <% if (index % 2 == 0) { %>
-    <tr>
-      <td><%= index %></td>
-      <td>Nome</td>
-      <td>Email</td>
-      <td>Celular</td>
+    <% for (let i = 0; i < dados.length; i++) { %> 
+    <tr <%- req.session.username == dados[i].username ? `style="color: white; font-style: bold;" ` : ``%>>
+      <td><%= dados[i].id %></td>
+      <td><%= dados[i].username %></td>
+      <td><%= dados[i].email %></td>
+      <td><%= dados[i].celular %></td>
+      <td><%= dados[i].password %></td>
     </tr>
-    <% } %> <% } %>
+    <% } %>
   </tbody>
 </table>

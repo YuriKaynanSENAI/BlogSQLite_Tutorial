@@ -150,16 +150,25 @@ app.post("/login", (req, res) => {
       res.redirect("/dashboard");
     } else {
       // Dados inválidos
-      res.send("Usuário Inválido");
+      res.send("/login_failed");
     }
   });
 });
 
 // Rota do painel do usuário (Dashboard)
 app.get("/dashboard", (req, res) => {
-  console.log("GET /dashboard");
-  config = { Pagina: "Dashboard", footer: "" };
-  res.render("pages/dashboard", { ...config, req: req });
+  if (req.session.loggedin) {
+    console.log("GET /dashboard");
+    config = { Pagina: "Dashboard", footer: "" };
+    db.all("SELECT * FROM users", [], (err, row) => {
+      if (err) throw err;
+      res.render("pages/dashboard", { ...config, dados: row, req: req });
+    });
+  } else {
+    res.send(
+      'Área Restrita, favor fazer o login para acessa-la <a href="/">Login</a>'
+    );
+  }
 });
 
 // Rota para logout do usuário
@@ -168,6 +177,10 @@ app.get("/logout", (req, res) => {
   req.session.destroy(() => {
     res.redirect("/");
   });
+});
+
+app.use("*", (req, res) => {
+  res.status(404).render("pages/404", { ...config, req: req });
 });
 
 // Inicia o servidor na porta definida
